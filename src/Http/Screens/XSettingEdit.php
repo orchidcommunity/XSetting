@@ -29,7 +29,7 @@ class XSettingEdit extends Screen
     /**
      * Query data
      *
-     * @param Shortvar $shortvar
+     * @param XSetting $xsetting
      *
      * @return array
      */
@@ -70,7 +70,8 @@ class XSettingEdit extends Screen
         ];
     }
     /**
-     * @param Shortvar $shortvar
+     * @param $request
+     * @param XSetting $xsetting
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -89,7 +90,8 @@ class XSettingEdit extends Screen
         return redirect()->route('platform.xsetting.list');
     }
     /**
-     * @param Master $balance
+     * @param $request
+     * @param XSetting $xsetting
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception

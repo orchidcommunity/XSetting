@@ -15,15 +15,10 @@ class XSettingListLayout extends Table
      */
     public function fields() : array
     {
-        //dd($data);
         return  [
-            //TD::set('key','Key'),
 
 			TD::set('key','Key')
-                ->setRender(function ($xsetting) {
-                return '<a href="' . route('platform.xsetting.edit',
-                        $xsetting->key) . '">' . $xsetting->key . '</a>';
-            }),
+                ->link('platform.xsetting.edit','key','key'),
 			TD::set('options.title', 'Name')
 				->setRender(function ($xsetting) {
                 return $xsetting->options['title'];
@@ -38,6 +33,5 @@ class XSettingListLayout extends Table
 
 
         ];
-		//dd($return);
     }
 }

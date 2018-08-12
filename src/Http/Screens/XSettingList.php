@@ -29,9 +29,7 @@ class XSettingList extends Screen
      */
     public function query() : array
     {
-		//dd(Shortvar::paginate(50));
-        
-        return [
+         return [
             'settings' => XSetting::paginate(30)
         ];
     }
@@ -58,8 +56,6 @@ class XSettingList extends Screen
         ];
     }
     /**
-     * @param Request $request
-     *
      * @return null
      */
      public function create()

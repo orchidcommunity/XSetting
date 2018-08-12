@@ -8,15 +8,11 @@ use Orchid\Screen\Fields\Builder;
 class XSettingEditLayout extends Rows
 {
     /**
-     * Views
-     *
      * @return array
      */
 	public function fields(): array
     {
-      //dd($this->query->getContent('xsetting'));
         /*
-
         return [
             Field::tag('input')
                 ->name('xsetting.key')
@@ -69,9 +65,6 @@ class XSettingEditLayout extends Rows
                 ->title('Type'),	
         ];
 
-		//dd(json_encode($this->query->getContent('xsetting.value.value')));
-		
-		//$type=$this->query->getContent('xsetting.options.type') ?? 'input';
         if (!is_null($this->query->getContent('xsetting.options.type'))) {
             $type = $this->query->getContent('xsetting.options.type');
         } elseif (is_array($this->query->getContent('xsetting.value'))) {
@@ -109,35 +102,10 @@ class XSettingEditLayout extends Rows
 			default:
 				$fields['value'] = Field::tag($type)
 				 ->name('xsetting.value')
-                 //->modifyValue(json_encode($this->query->getContent('xsetting.value')))
-                 //->modifyName('xsetting.value')
-                 //->modifyValue('Hello')
-                 //->value('hello')
 				 ->title('Value');
 		}
-//dd($fields);
 		return $fields;
 
     }
-	
-	
-	
-	
-	 /**
-     * @param $post
-     *
-     * @return array
-     * @throws \Throwable
-     */
-     /*
-    public function build($post)
-    {
-        //dd($post);
-		$form = new Builder($this->dfields($post), $post);
 
-        return view($this->template, [
-            'form' => $form->generateForm(),
-        ])->render();
-    }*/
-	
 }

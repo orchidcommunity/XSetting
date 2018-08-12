@@ -3,7 +3,6 @@ namespace Orchids\XSetting\Providers;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\ServiceProvider;
-//use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\View;
 use Orchid\Platform\Dashboard;
 //use Pingpong\Shortcode\ShortcodeServiceProvider as SCServiceProvider;
@@ -24,7 +23,6 @@ class XSettingProvider extends ServiceProvider
 
         //View::composer('platform::layouts.dashboard', MenuComposer::class);
         View::composer('platform::container.systems.index', MenuComposer::class);
-        //$exitCode = Artisan::call('migrate', array('--force' => true));
     }
 
     /**

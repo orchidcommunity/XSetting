@@ -3,6 +3,7 @@
 В данном уроке научимся создавать плагины для Orchid, отличие плагинов от проекта, в том что его можно легко подключать в другие проекты.
 
 Наш плагин будет отображать [настройки](https://orchid.software/ru/docs/settings) Orchid, а также создаст возможность их редактировать.
+
 ![](https://github.com/orchidcommunity/XSetting/blob/master/docs/imgs/create_plugin1.gif)
 
 Настройки легко выводятся в шаблонизаторе blade вот таким кодом ` {{setting('phone')}} `.
@@ -270,13 +271,10 @@ class XSettingListLayout extends Table
     public function fields() : array
     {
         return  [
-            TD::set('key','Key')
-                ->setRender(function ($shortvar) {
-                    return '<a href="' . route('platform.blogcms.shortvar.edit',
-                        $shortvar->key) . '">' . $shortvar->key . '</a>';
-                }),
+            TD::set('key','Key')        // Устновить имя переменной и заголовок столюца
+                ->link('platform.xsetting.edit','key','key'), // добавление ссылки, Параметры (ссылка для роутинга, опции роутинга, отображаемый текст)
             TD::set('options.title', 'Name')
-                ->setRender(function ($shortvar) {
+                ->setRender(function ($shortvar) {          //setRender - функция генерирует отображаемые данные
                     return $shortvar->options['title'];
                 }),
             TD::set('value','Value')
@@ -410,4 +408,5 @@ class XSettingEditLayout extends Rows
 - CodeEditor (JSON) - любой массив в JSON виде.
 - CodeEditor (JavaScript) - JavaScript, HTML код (Например код гугл аналитики).
 - Tags - список слов, теги (Например ключевые слова в `meta name="keywords"`).
+
 ![](https://github.com/orchidcommunity/XSetting/blob/master/docs/imgs/create_plugin2.gif)
