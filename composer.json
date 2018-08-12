@@ -1,0 +1,27 @@
+{
+  "name": "orchids/xsetting",
+  "description": "Extension setting package for Orchid Platform",
+  "type": "library",
+  "keywords": [
+    "Orchid",
+    "XSetting"
+  ],
+  "license": "MIT",
+  "require": {
+    "pingpong/shortcode": "~2.1" 
+  },
+  "autoload": {
+    "psr-4": {
+      "Orchids\\XSetting\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Orchids\\XSetting\\Providers\\XSettingProvider"
+      ]
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
