@@ -1,6 +1,6 @@
 ## Как сделать пакет (плагин) в Orchid шаг за шагом. 
  
-В данном уроке научимся создавать плагины для Orchid, отличае плагинов от проекта, в том что его можно легко подключать в другие проекты.
+В данном уроке научимся создавать плагины для Orchid, отличие плагинов от проекта, в том что его можно легко подключать в другие проекты.
 
 Наш плагин будет отображать [настройки](https://orchid.software/ru/docs/settings) Orchid, а также создаст возможность их редактировать.
 ![](https://github.com/orchidcommunity/XSetting/blob/master/docs/imgs/create_plugin1.gif)
@@ -81,7 +81,7 @@ Composer.json
 
 ` "require": {"orchid/platform":"dev-develop"} ` - необходимые зависимости для установки пакета. 
 
-`"psr-4": {"Orchids\\XSetting\\": "src/"}` - все подключаемые классы у которых путь начинается с `Orchids\XSetting` будут искатся в этом пакете.
+`"psr-4": {"Orchids\\XSetting\\": "src/"}` - классы, у которых путь начинается с `Orchids\XSetting` будут соотнесены с каталогом `src/` в этом пакете.
 
 `"laravel": {"providers": [ "Orchids\\XSetting\\Providers\\XSettingProvider" ]} ` - После установки запустит провайдер по пути `src/Providers/XSettingProvider.php`
 
@@ -114,10 +114,11 @@ class XSettingProvider extends ServiceProvider
         /*
         *Подключение класса добавления пункта меню 
         */	
-        View::composer('platform::container.systems.index', MenuComposer::class);
+        //View::composer('platform::layouts.dashboard', MenuComposer::class);  //В левое меню
+        View::composer('platform::container.systems.index', MenuComposer::class); //В системное меню  в центре
         
         /* 
-        * Подключение файлов миграциии для добавления их в базу данных нужно выполнить `php artisan migrate` 
+        * Подключение файлов миграции для добавления их в базу данных нужно выполнить `php artisan migrate` 
         */	
         $this->loadMigrationsFrom(realpath(__DIR__.'/../../database/migrations'));
     }
@@ -168,7 +169,7 @@ class MenuComposer
 ```
 
 
-#### 5. Теперь нужно добавить в базу данных столбец `options` содержащий дополнительные параметры данного ключа, для этого создаим файл миграции баз даныых 
+#### 5. Теперь нужно добавить в базу данных столбец `options` содержащий дополнительные параметры данного ключа, для этого создадим файл миграции баз данных 
 `database/migrations/2018_08_07_000000_create_options_for_settings_table.php` содержащий 
 ```
 public function up()
@@ -324,7 +325,7 @@ class XSettingEdit extends Screen
         return [
             Layouts::columns([
                 'EditSetting' => [
-                    XSettingEditLayout::class   //Макет который обработает даннные
+                    XSettingEditLayout::class   //Макет который обработает данные
                 ],
             ]),
         ];
@@ -391,6 +392,7 @@ class XSettingEditLayout extends Rows
 	}
 }
 ```
+
 Подробнее про поля [ссылка](https://orchid.software/ru/docs/field)
 
 #### 11. Установка 
@@ -398,7 +400,9 @@ class XSettingEditLayout extends Rows
 - Применим миграции `php artisan migrate`
 - В админке проставим доступ пользователю.
 
-#### Upadate from 12-08-18 
+[Ссылка на плагин на github](https://github.com/orchidcommunity/XSetting) 
+
+#### Update from 12-08-18 
 В плагин была добавлена возможность выбора типа хранимых данных:
 - Input - строка
 - Textarea - Текст
@@ -406,4 +410,4 @@ class XSettingEditLayout extends Rows
 - CodeEditor (JSON) - любой массив в JSON виде.
 - CodeEditor (JavaScript) - JavaScript, HTML код (Например код гугл аналитики).
 - Tags - список слов, теги (Например ключевые слова в `meta name="keywords"`).
-![](https://github.com/orchidcommunity/XSetting/blob/master/docs/imgs/create_plugin1.gif)
+![](https://github.com/orchidcommunity/XSetting/blob/master/docs/imgs/create_plugin2.gif)
