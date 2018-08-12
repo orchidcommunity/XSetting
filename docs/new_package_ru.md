@@ -3,6 +3,7 @@
 В данном уроке научимся создавать плагины для Orchid, отличае плагинов от проекта, в том что его можно легко подключать в другие проекты.
 
 Наш плагин будет отображать [настройки](https://orchid.software/ru/docs/settings) Orchid, а также создаст возможность их редактировать.
+![](https://github.com/orchidcommunity/XSetting/blob/master/docs/imgs/create_plugin1.gif)
 
 Настройки легко выводятся в шаблонизаторе blade вот таким кодом ` {{setting('phone')}} `.
 
@@ -396,3 +397,13 @@ class XSettingEditLayout extends Rows
 - Запускаем в консоли `composer require "orchids/xsetting"`
 - Применим миграции `php artisan migrate`
 - В админке проставим доступ пользователю.
+
+#### Upadate from 12-08-18 
+В плагин была добавлена возможность выбора типа хранимых данных:
+- Input - строка
+- Textarea - Текст
+- Picture - Изображение (Например логотип компании)
+- CodeEditor (JSON) - любой массив в JSON виде.
+- CodeEditor (JavaScript) - JavaScript, HTML код (Например код гугл аналитики).
+- Tags - список слов, теги (Например ключевые слова в `meta name="keywords"`).
+![](https://github.com/orchidcommunity/XSetting/blob/master/docs/imgs/create_plugin1.gif)
