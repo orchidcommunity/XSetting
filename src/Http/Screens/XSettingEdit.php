@@ -78,15 +78,15 @@ class XSettingEdit extends Screen
     {
 
 		$req = $this->request->get('xsetting');
-
+/*
         if ($req['options']['type']=='code') {
             $req['value']=json_decode($req['value'], true);
         }
-
+*/
 		$xsetting->updateOrCreate(['key' => $req['key']], $req );
 
         Alert::info('Setting was saved');
-        return redirect()->route('platform.xsetting.list');
+        return back();
     }
     /**
      * @param Master $balance
@@ -99,6 +99,6 @@ class XSettingEdit extends Screen
     {
 		$xsetting->where('id',$request)->delete();
         Alert::info('Setting was removed');
-        return redirect()->route('platform.xsetting.list');
+        return back();
     }
 }

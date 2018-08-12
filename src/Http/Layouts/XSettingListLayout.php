@@ -31,9 +31,9 @@ class XSettingListLayout extends Table
             TD::set('value','Value')
                 ->setRender(function ($xsetting) {
                      if (is_array($xsetting->value)) {
-                        return substr(htmlspecialchars(json_encode($xsetting->value)), 0, 50);
+                        return str_limit(htmlspecialchars(json_encode($xsetting->value)), 50);
                      }
-                     return substr(htmlspecialchars($xsetting->value), 0, 50);
+                     return str_limit(htmlspecialchars($xsetting->value), 50);
 				}),
 
 

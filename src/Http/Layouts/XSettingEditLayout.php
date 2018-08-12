@@ -15,8 +15,8 @@ class XSettingEditLayout extends Rows
 	public function fields(): array
     {
       //dd($this->query->getContent('xsetting'));
-        
-        /*
+
+
         return [
             Field::tag('input')
                 ->name('xsetting.key')
@@ -36,8 +36,8 @@ class XSettingEditLayout extends Rows
                 ->name('xsetting.value')
                 ->title('Value'),
         ];
-*/
 
+/*
 		$fields = [
 			'key'		=> Field::tag('input')
                 ->name('xsetting.key')
@@ -117,6 +117,7 @@ class XSettingEditLayout extends Rows
 		}
 //dd($fields);
 		return $fields;
+*/
     }
 	
 	

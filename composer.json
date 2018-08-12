@@ -8,6 +8,7 @@
   ],
   "license": "MIT",
   "require": {
+    "orchid/platform":"dev-develop",
     "pingpong/shortcode": "~2.1" 
   },
   "autoload": {
