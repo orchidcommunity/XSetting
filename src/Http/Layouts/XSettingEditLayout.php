@@ -2,7 +2,7 @@
 namespace Orchids\XSetting\Http\Layouts;
 
 use Orchid\Screen\Layouts\Rows;
-use Orchid\Screen\Fields\Field;
+use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Builder;
 
 class XSettingEditLayout extends Rows
@@ -12,28 +12,6 @@ class XSettingEditLayout extends Rows
      */
 	public function fields(): array
     {
-        /*
-        return [
-            Field::tag('input')
-                ->name('xsetting.key')
-                ->required()
-                ->max(255)
-                ->title('Key slug'),
-            Field::tag('input')
-                ->name('xsetting.options.title')
-                ->required()
-                ->max(255)
-                ->title('Title'),
-            Field::tag('textarea')
-                ->name('xsetting.options.desc')
-                ->row(5)
-                ->title('Description'),
-            Field::tag('textarea')
-                ->name('xsetting.value')
-                ->title('Value'),
-        ];
-        */
-
 		$fields = [
 			'key'		=> Field::tag('input')
                 ->name('xsetting.key')

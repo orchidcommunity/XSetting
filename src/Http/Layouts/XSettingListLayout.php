@@ -2,7 +2,7 @@
 namespace Orchids\XSetting\Http\Layouts;
 
 use Orchid\Screen\Layouts\Table;
-use Orchid\Screen\Fields\TD;
+use Orchid\Screen\TD;
 
 class XSettingListLayout extends Table
 {

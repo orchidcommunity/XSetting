@@ -3,11 +3,11 @@ namespace Orchids\XSetting\Models;
 
 use Illuminate\Support\Facades\Cache;
 use Orchid\Setting\Setting;
-use Orchid\Platform\Traits\MultiLanguage;
+use Orchid\Platform\Traits\MultiLanguageTrait;
 
 class XSetting extends Setting
 {
-	use MultiLanguage;
+	use MultiLanguageTrait;
 	
 	protected $fillable = [
 		'key',
