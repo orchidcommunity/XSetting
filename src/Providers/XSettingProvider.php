@@ -11,7 +11,7 @@ class XSettingProvider extends ServiceProvider
 {
     /**
      * Boot the service provider.
-     * After change run:  php artisan vendor:publish --provider="Orchids\XSetting\Providers\DemoKitProvider"
+     * After change run:  php artisan vendor:publish --provider="Orchids\XSetting\Providers\XSettingProvider"
      */
     public function boot(Dashboard $dashboard)
     {
