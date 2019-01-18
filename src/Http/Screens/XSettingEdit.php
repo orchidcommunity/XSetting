@@ -90,14 +90,13 @@ class XSettingEdit extends Screen
         return redirect()->route('platform.xsetting.list');
     }
     /**
-     * @param $request
      * @param XSetting $xsetting
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
 	 
-    public function remove($request, XSetting $xsetting)
+    public function remove(XSetting $xsetting)
     {
 		$xsetting->where('id',$request)->delete();
         Alert::info('Setting was removed');
