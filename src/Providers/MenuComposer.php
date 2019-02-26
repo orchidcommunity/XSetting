@@ -29,7 +29,6 @@ class MenuComposer
                     ->setSlug('XSetting')
                     ->setIcon('icon-settings')
                     ->setRoute(route('platform.xsetting.list'))
-                    ->setGroupName(trans('platform::systems/category.groupname'))
                     ->setPermission('platform.systems.xsetting')
                     ->setSort(7)
             );

@@ -5,6 +5,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Orchid\Platform\Dashboard;
+use Orchid\Platform\ItemPermission;
 //use Pingpong\Shortcode\ShortcodeServiceProvider as SCServiceProvider;
 
 class XSettingProvider extends ServiceProvider
@@ -19,24 +20,20 @@ class XSettingProvider extends ServiceProvider
         //$this->app->register(SCServiceProvider::class);
         $this->dashboard->registerPermissions($this->registerPermissions());
         $this->loadMigrationsFrom(realpath(__DIR__.'/../../database/migrations'));
-   		$this->loadRoutesFrom(realpath(__DIR__.'/../../routes/route.php'));  //Файл роутинга
+        $this->loadRoutesFrom(realpath(__DIR__.'/../../routes/route.php'));  //Файл роутинга
 
         //View::composer('platform::layouts.dashboard', MenuComposer::class);
         View::composer('platform::container.systems.index', MenuComposer::class);
+
+
     }
 
     /**
-     * @return array
+     * @return ItemPermission
      */
-    protected function registerPermissions(): array
+    protected function registerPermissions(): ItemPermission
     {
-        return [
-            trans('platform::permission.main.systems') => [
-                [
-                    'slug' => 'platform.systems.xsetting',
-                    'description' => 'Edit settings',
-                ],
-            ],
-        ];
+        return ItemPermission::setGroup(__('Systems'))
+            ->addPermission('platform.systems.xsetting', __('Edit settings'));
     }
 }
