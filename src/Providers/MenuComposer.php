@@ -3,6 +3,7 @@
 namespace Orchids\XSetting\Providers;
 
 use Orchid\Platform\Dashboard;
+use Orchid\Platform\ItemMenu;
 
 class MenuComposer
 {
@@ -23,15 +24,14 @@ class MenuComposer
     public function compose()
     {
         $this->dashboard->menu
-            ->add('CMS', [
-                'slug'       => 'XSetting',
-                'icon'       => 'icon-settings',
-                'route'      => route('platform.xsetting.list'),
-                'label'      => 'Setting configuration',
-                'groupname'  => trans('platform::systems/category.groupname'),
-                /*'active'     => 'platform.systems.*',*/
-                'permission' => 'platform.systems.xsetting',
-                'sort'       => 7,
-            ]);
+            ->add('CMS',
+                ItemMenu::setLabel('Setting configuration')
+                    ->setSlug('XSetting')
+                    ->setIcon('icon-settings')
+                    ->setRoute(route('platform.xsetting.list'))
+                    ->setGroupName(trans('platform::systems/category.groupname'))
+                    ->setPermission('platform.systems.xsetting')
+                    ->setSort(7)
+            );
     }
 }
