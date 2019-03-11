@@ -8,7 +8,7 @@
   ],
   "license": "MIT",
   "require": {
-    "orchid/platform":"^3.0|dev-master",
+    "orchid/platform":"^4.0|dev-master",
     "pingpong/shortcode": "~2.1" 
   },
   "autoload": {
