@@ -28,7 +28,7 @@ class MenuComposer
                 ItemMenu::setLabel('Setting configuration')
                     ->setSlug('XSetting')
                     ->setIcon('icon-settings')
-                    ->setRoute(route('platform.xsetting.list'))
+                    ->setRoute('platform.xsetting.list')
                     ->setPermission('platform.systems.xsetting')
                     ->setSort(7)
             );

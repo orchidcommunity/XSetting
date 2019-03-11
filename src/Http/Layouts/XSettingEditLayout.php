@@ -1,12 +1,12 @@
 <?php
 namespace Orchids\XSetting\Http\Layouts;
 
-use Orchid\Screen\Fields\CodeField;
-use Orchid\Screen\Fields\InputField;
-use Orchid\Screen\Fields\PictureField;
-use Orchid\Screen\Fields\SelectField;
-use Orchid\Screen\Fields\TagsField;
-use Orchid\Screen\Fields\TextAreaField;
+use Orchid\Screen\Fields\Code;
+use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Picture;
+use Orchid\Screen\Fields\Select;
+use Orchid\Screen\Fields\Tags;
+use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Builder;
@@ -19,21 +19,21 @@ class XSettingEditLayout extends Rows
 	public function fields(): array
     {
 		$fields = [
-			'key'		=> InputField::make('xsetting.key')
+			'key'		=> Input::make('xsetting.key')
                 ->required()
 				->max(255)
                 ->title('Key slug'),
 		
-			'title'		=> InputField::make('xsetting.options.title')
+			'title'		=> Input::make('xsetting.options.title')
                 ->required()
 				->max(255)
                 ->title('Title'),
 			
-			'desc'	=> TextAreaField::make('xsetting.options.desc')
+			'desc'	=> TextArea::make('xsetting.options.desc')
 				->row(5)
                 ->title('Description'),
 				
-			'type' => SelectField::make('xsetting.options.type')
+			'type' => Select::make('xsetting.options.type')
                 ->options([
                     'input'    => 'Input',
                     'textarea' => 'Textarea',
@@ -56,34 +56,34 @@ class XSettingEditLayout extends Rows
 		switch ($type) {
 		
 			case 'picture':
-				$fields['width'] = InputField::make('xsetting.value.width')
+				$fields['width'] = Input::make('xsetting.value.width')
                          ->title('Picture width');
-				$fields['height'] = InputField::make('xsetting.value.height')
+				$fields['height'] = Input::make('xsetting.value.height')
                          ->title('Picture height');
-				$fields['value'] = PictureField::make('xsetting.value.value')
+				$fields['value'] = Picture::make('xsetting.value.value')
 						 ->width($this->query->getContent('xsetting.value.width') ?? 500)
 						 ->height($this->query->getContent('xsetting.value.height') ?? 300);
 				break;
             case 'code':    
-                $fields['value'] = CodeField::make('xsetting.value')
+                $fields['value'] = Code::make('xsetting.value')
                  ->language('json')
                  ->title('Value code');
                  break;
             case 'codejs':    
-                $fields['value'] = CodeField::make('xsetting.value')
+                $fields['value'] = Code::make('xsetting.value')
                  ->language('js')
                  ->title('Value code');
                  break;
             case 'textarea':
-                $fields['value'] = TextAreaField::make('xsetting.value')
+                $fields['value'] = TextArea::make('xsetting.value')
                     ->title('Value');
                     break;
             case 'tags':
-                $fields['value'] = TagsField::make('xsetting.value')
+                $fields['value'] = Tags::make('xsetting.value')
                     ->title('Value');
                 break;
 			default:
-				$fields['value'] = InputField::make('xsetting.value')
+				$fields['value'] = Input::make('xsetting.value')
 				 ->title('Value');
 		}
 		return $fields;
