@@ -25,12 +25,12 @@ class MenuComposer
     {
         $this->dashboard->menu
             ->add('CMS',
-                ItemMenu::setLabel('Setting configuration')
-                    ->setSlug('XSetting')
-                    ->setIcon('icon-settings')
-                    ->setRoute('platform.xsetting.list')
-                    ->setPermission('platform.systems.xsetting')
-                    ->setSort(7)
+                ItemMenu::Label('Setting configuration')
+                    ->Slug('XSetting')
+                    ->Icon('icon-settings')
+                    ->Route('platform.xsetting.list')
+                    ->Permission('platform.systems.xsetting')
+                    ->Sort(7)
             );
     }
 }

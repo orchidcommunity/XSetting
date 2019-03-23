@@ -20,11 +20,11 @@ class XSettingListLayout extends Table
 			TD::set('key','Key')
                 ->link('platform.xsetting.edit','key','key'),
 			TD::set('options.title', 'Name')
-				->setRender(function ($xsetting) {
+				->render(function ($xsetting) {
                 return $xsetting->options['title'];
 				}),
             TD::set('value','Value')
-                ->setRender(function ($xsetting) {
+                ->render(function ($xsetting) {
                      if (is_array($xsetting->value)) {
                         return str_limit(htmlspecialchars(json_encode($xsetting->value)), 50);
                      }
