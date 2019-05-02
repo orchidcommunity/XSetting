@@ -3,11 +3,12 @@ namespace Orchids\XSetting\Models;
 
 use Illuminate\Support\Facades\Cache;
 use Orchid\Setting\Setting;
+use Orchid\Platform\Traits\FilterTrait;
 use Orchid\Platform\Traits\MultiLanguageTrait;
 
 class XSetting extends Setting
 {
-	use MultiLanguageTrait;
+	use FilterTrait, MultiLanguageTrait;
 	
 	protected $fillable = [
 		'key',
@@ -19,5 +20,20 @@ class XSetting extends Setting
         'key' =>'string',
         'value' => 'array',
         'options' => 'array',
-    ];	
+    ];
+
+    /**
+     * @var array
+     */
+    protected $allowedFilters = [
+        'key',
+        'value',
+    ];
+    /**
+     * @var array
+     */
+    protected $allowedSorts = [
+        'key',
+        'value',
+    ];
 }

@@ -3,7 +3,7 @@ namespace Orchids\XSetting\Http\Screens;
 
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Setting;
-use Orchid\Screen\Layouts;
+use Orchid\Screen\Layout;
 use Orchid\Screen\Link;
 use Orchid\Screen\Screen;
 
@@ -27,6 +27,12 @@ class XSettingEdit extends Screen
      */
     public $description = 'Edit setting';
     /**
+     * Edit or add setting
+     *
+     * @var boolean
+     */
+    public $edit=true;
+    /**
      * Query data
      *
      * @param XSetting $xsetting
@@ -35,7 +41,18 @@ class XSettingEdit extends Screen
      */
     public function query($xsetting = null) : array
     {
-        $xsetting = is_null($xsetting) ? new XSetting() : XSetting::where("key",$xsetting)->first();;
+        if (is_null($xsetting)) {
+            $xsetting = new XSetting();
+            $this->edit = false;
+            $this->name = __('New setting');
+            $this->description = __('Add new setting');
+        } else {
+            $xsetting = XSetting::where("key",$xsetting)->first();
+            $this->edit = true;
+            $this->name = __('Edit setting').' '.$xsetting->key;
+            $this->description = $xsetting->options['title'];
+        }
+        //$xsetting = is_null($xsetting) ? new XSetting() : XSetting::where("key",$xsetting)->first();;
         return [
             'xsetting'   => $xsetting,
         ];
@@ -47,9 +64,10 @@ class XSettingEdit extends Screen
      */
     public function commandBar() : array
     {
-        return [				
-            Link::name('Save')->method('save'),
-            Link::name('Remove')->method('remove'),
+        return [
+            Link::name(__('Back to list'))->icon('icon-arrow-left-circle')->link(route('platform.xsetting.list')),
+            Link::name(__('Save'))->icon('icon-check')->method('save'),
+            Link::name(__('Remove'))->icon('icon-close')->method('remove')->canSee($this->edit),
         ];
     }
     /**
@@ -61,7 +79,7 @@ class XSettingEdit extends Screen
     {
         return [
 		
-		    Layouts::columns([
+		    Layout::columns([
                 'EditSetting' => [
                     XSettingEditLayout::class
                 ],
@@ -86,7 +104,7 @@ class XSettingEdit extends Screen
 
 		$xsetting->updateOrCreate(['key' => $req['key']], $req );
 
-        Alert::info('Setting was saved');
+        Alert::info(__('Setting was saved'));
         return redirect()->route('platform.xsetting.list');
     }
     /**
@@ -98,8 +116,8 @@ class XSettingEdit extends Screen
 	 
     public function remove(XSetting $xsetting)
     {
-		$xsetting->where('id',$request)->delete();
-        Alert::info('Setting was removed');
+        $xsetting->delete();
+        Alert::info(__('Setting was removed'));
         return redirect()->route('platform.xsetting.list');
     }
 }
