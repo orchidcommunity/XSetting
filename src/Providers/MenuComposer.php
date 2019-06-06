@@ -27,7 +27,7 @@ class MenuComposer
                 ItemMenu::Label(__('Setting configuration'))
                     ->Slug('XSetting')
                     ->Icon('icon-settings')
-                    ->groupName(__('Setting description'))
+                    ->title(__('Setting description'))
                     ->Route('platform.xsetting.list')
                     ->Permission('platform.systems.xsetting')
                     ->Sort(7)

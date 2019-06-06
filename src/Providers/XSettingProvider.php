@@ -17,15 +17,20 @@ class XSettingProvider extends ServiceProvider
     public function boot(Dashboard $dashboard)
     {
         $this->dashboard = $dashboard;
+
         $this->registerTranslations();
-        $this->dashboard->registerPermissions($this->registerPermissions());
+        //$this->dashboard->registerPermissions($this->registerPermissions());
         $this->loadMigrationsFrom(realpath(XSETTING_PATH.'/database/migrations'));
         $this->loadRoutesFrom(realpath(XSETTING_PATH.'/routes/route.php'));
 
 
         //View::composer('platform::layouts.dashboard', MenuComposer::class);
-        View::composer('platform::container.systems.index', MenuComposer::class);
+        View::composer('platform::systems', MenuComposer::class);
 
+        $this->app->booted(function () {
+            $this->dashboard->registerPermissions($this->registerPermissions());
+            //$this->registerTranslations();
+        });
         //dd($this->app['translator']);
     }
 

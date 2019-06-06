@@ -2,13 +2,13 @@
 namespace Orchids\XSetting\Models;
 
 use Illuminate\Support\Facades\Cache;
+use Orchid\Filters\Filterable;
 use Orchid\Setting\Setting;
-use Orchid\Platform\Traits\FilterTrait;
-use Orchid\Platform\Traits\MultiLanguageTrait;
+use Orchid\Screen\AsMultiSource;
 
 class XSetting extends Setting
 {
-	use FilterTrait, MultiLanguageTrait;
+	use Filterable, AsMultiSource;
 	
 	protected $fillable = [
 		'key',
