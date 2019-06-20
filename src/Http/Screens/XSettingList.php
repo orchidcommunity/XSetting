@@ -29,8 +29,9 @@ class XSettingList extends Screen
      */
     public function query() : array
     {
-         return [
-            'settings' => XSetting::paginate(30)
+        $this->name = __('Setting List');
+        return [
+            'settings' => XSetting::filters()->defaultSort('key', 'desc')->paginate(30)
         ];
     }
     /**

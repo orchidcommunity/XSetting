@@ -5,7 +5,7 @@ use Orchid\Screen\Fields\Code;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\Select;
-use Orchid\Screen\Fields\Tags;
+use Orchid\Press\Screen\Fields\Tags;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Field;
@@ -22,16 +22,16 @@ class XSettingEditLayout extends Rows
 			'key'		=> Input::make('xsetting.key')
                 ->required()
 				->max(255)
-                ->title('Key slug'),
+                ->title(__('Key slug')),
 		
 			'title'		=> Input::make('xsetting.options.title')
                 ->required()
 				->max(255)
-                ->title('Title'),
+                ->title(__('Title')),
 			
 			'desc'	=> TextArea::make('xsetting.options.desc')
 				->row(5)
-                ->title('Description'),
+                ->title(__('Description')),
 				
 			'type' => Select::make('xsetting.options.type')
                 ->options([
@@ -42,7 +42,7 @@ class XSettingEditLayout extends Rows
                     'codejs'   => 'CodeEditor (JavaScript)',
                     'tags'     => 'Tags',
                 ])
-                ->title('Type'),
+                ->title(__('Type')),
         ];
 
         if (!is_null($this->query->getContent('xsetting.options.type'))) {
@@ -67,24 +67,24 @@ class XSettingEditLayout extends Rows
             case 'code':    
                 $fields['value'] = Code::make('xsetting.value')
                  ->language('json')
-                 ->title('Value code');
+                 ->title(__('Value code'));
                  break;
             case 'codejs':    
                 $fields['value'] = Code::make('xsetting.value')
                  ->language('js')
-                 ->title('Value code');
+                 ->title(__('Value code'));
                  break;
             case 'textarea':
                 $fields['value'] = TextArea::make('xsetting.value')
-                    ->title('Value');
+                    ->title(__('Value'));
                     break;
             case 'tags':
                 $fields['value'] = Tags::make('xsetting.value')
-                    ->title('Value');
+                    ->title(__('Value'));
                 break;
 			default:
 				$fields['value'] = Input::make('xsetting.value')
-				 ->title('Value');
+				 ->title(__('Value'));
 		}
 		return $fields;
 

@@ -14,7 +14,7 @@ class CreateOptionsForSettingsTable extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->jsonb('options');
+            $table->jsonb('options')->nullable();
         });
     }
 

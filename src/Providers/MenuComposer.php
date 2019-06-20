@@ -15,7 +15,6 @@ class MenuComposer
     public function __construct(Dashboard $dashboard)
     {
         $this->dashboard = $dashboard;
-		//$this->menu = $dashboard->menu;
     }
 
     /**
@@ -25,9 +24,10 @@ class MenuComposer
     {
         $this->dashboard->menu
             ->add('CMS',
-                ItemMenu::Label('Setting configuration')
+                ItemMenu::Label(__('Setting configuration'))
                     ->Slug('XSetting')
                     ->Icon('icon-settings')
+                    ->title(__('Setting description'))
                     ->Route('platform.xsetting.list')
                     ->Permission('platform.systems.xsetting')
                     ->Sort(7)
