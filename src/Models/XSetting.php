@@ -1,6 +1,7 @@
 <?php
 namespace Orchids\XSetting\Models;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Orchid\Filters\Filterable;
 use Orchid\Setting\Setting;
@@ -36,4 +37,18 @@ class XSetting extends Setting
         'key',
         'value',
     ];
+
+
+    /**
+     * @param string|array $key
+     *
+     * @return null
+     */
+    public function cacheErase($key)
+    {
+        foreach (Arr::wrap($key) as $value) {
+            Cache::forget(self::CACHE_PREFIX.$value);
+        }
+    }
+
 }

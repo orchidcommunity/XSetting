@@ -9,11 +9,11 @@ class XSettingListLayout extends Table
     /**
      * @var string
      */
-    public $data = 'settings';
+    public $target = 'settings';
     /**
      * @return array
      */
-    public function fields() : array
+    public function columns() : array
     {
         return  [
 
@@ -29,9 +29,9 @@ class XSettingListLayout extends Table
             TD::set('value','Value')
                 ->render(function ($xsetting) {
                      if (is_array($xsetting->value)) {
-                        return str_limit(htmlspecialchars(json_encode($xsetting->value)), 50);
+                        return \Str::limit(htmlspecialchars(json_encode($xsetting->value)), 50);
                      }
-                     return str_limit(htmlspecialchars($xsetting->value), 50);
+                     return \Str::limit(htmlspecialchars($xsetting->value), 50);
 				})
                 ->sort()
                 ->filter('text'),

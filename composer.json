@@ -8,7 +8,7 @@
   ],
   "license": "MIT",
   "require": {
-    "orchid/platform":"^4.0|dev-master|*"
+    "orchid/platform":"^6.0.0"
   },
   "autoload": {
     "psr-4": {

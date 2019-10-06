@@ -1,10 +1,11 @@
 <?php
 namespace Orchids\XSetting\Http\Screens;
 
+use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Setting;
 use Orchid\Screen\Layout;
-use Orchid\Screen\Link;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
 
 use Orchids\XSetting\Models\XSetting;
@@ -50,9 +51,11 @@ class XSettingEdit extends Screen
             $xsetting = XSetting::where("key",$xsetting)->first();
             $this->edit = true;
             $this->name = __('Edit setting').' '.$xsetting->key;
-            $this->description = $xsetting->options['title'];
+            if (!is_null($xsetting->options['title'])) {
+                $this->description = $xsetting->options['title'];
+            }
         }
-        //$xsetting = is_null($xsetting) ? new XSetting() : XSetting::where("key",$xsetting)->first();;
+
         return [
             'xsetting'   => $xsetting,
         ];
@@ -65,9 +68,9 @@ class XSettingEdit extends Screen
     public function commandBar() : array
     {
         return [
-            Link::name(__('Back to list'))->icon('icon-arrow-left-circle')->link(route('platform.xsetting.list')),
-            Link::name(__('Save'))->icon('icon-check')->method('save'),
-            Link::name(__('Remove'))->icon('icon-close')->method('remove')->canSee($this->edit),
+            Link::make(__('Back to list'))->icon('icon-arrow-left-circle')->href(route('platform.xsetting.list')),
+            Button::make(__('Save'))->icon('icon-check')->method('save'),
+            Button::make(__('Remove'))->icon('icon-close')->method('remove')->canSee($this->edit),
         ];
     }
     /**
@@ -103,10 +106,13 @@ class XSettingEdit extends Screen
         }
 
 		$xsetting->updateOrCreate(['key' => $req['key']], $req );
+        $xsetting = XSetting::where("key",$req['key'])->first();
+        $xsetting->cacheErase($xsetting->key);
 
         Alert::info(__('Setting was saved'));
         return redirect()->route('platform.xsetting.list');
     }
+
     /**
      * @param XSetting $xsetting
      *

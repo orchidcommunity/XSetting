@@ -8,7 +8,6 @@ use Orchids\XSetting\Http\Screens\XSettingList;
 Route::domain((string) config('platform.domain'))
     ->prefix(Dashboard::prefix('/systems'))
     ->middleware(config('platform.middleware.private'))
-    ->namespace('Orchids\XSetting\Http\Screens')
     ->group(function (\Illuminate\Routing\Router $router, $path='platform.xsetting.') {
         $router->screen('xsetting/{xsetting}/edit', XSettingEdit::class)->name($path.'edit');
         $router->screen('xsetting/create', XSettingEdit::class)->name($path.'create');

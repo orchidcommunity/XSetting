@@ -59,7 +59,7 @@ Composer.json
   ],
   "license": "MIT",
   "require": {
-    "orchid/platform":"dev-develop"
+    "orchid/platform":"dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -80,7 +80,7 @@ Composer.json
 Расшифровка основных параметров
 ` "name": "orchids/xsetting", ` - при выполнении команды в консоли `composer require "orchids/xsetting"` композер обработает этот файл.
 
-` "require": {"orchid/platform":"dev-develop"} ` - необходимые зависимости для установки пакета. 
+` "require": {"orchid/platform":"dev-master"} ` - необходимые зависимости для установки пакета. 
 
 `"psr-4": {"Orchids\\XSetting\\": "src/"}` - классы, у которых путь начинается с `Orchids\XSetting` будут соотнесены с каталогом `src/` в этом пакете.
 
@@ -104,24 +104,28 @@ class XSettingProvider extends ServiceProvider
         /* 
         * Добавление разрешения доступа для пользователей и ролей. 
         */
-        $this->dashboard->registerPermissions([ trans('platform::permission.main.systems') => [
-                ['slug' => 'platform.systems.xsetting', 'description' => 'Edit settings']]); 
+        $this->app->booted(function () {
+            $this->dashboard->registerPermissions(
+                ItemPermission::group(__('Systems'))
+                   ->addPermission('platform.systems.xsetting', __('Edit settings'))
+            );
+        });
 		
         /* 
         * Подключение файла роутинга 
         */	
-        $this->loadRoutesFrom(realpath(__DIR__.'/../../routes/route.php')); 
+        $this->loadRoutesFrom(realpath(XSETTING_PATH.'/routes/route.php')); 
     
         /*
         *Подключение класса добавления пункта меню 
-        */	
+        */
+        View::composer('platform::systems', MenuComposer::class); //В системное меню  в центре
         //View::composer('platform::layouts.dashboard', MenuComposer::class);  //В левое меню
-        View::composer('platform::container.systems.index', MenuComposer::class); //В системное меню  в центре
         
         /* 
         * Подключение файлов миграции для добавления их в базу данных нужно выполнить `php artisan migrate` 
         */	
-        $this->loadMigrationsFrom(realpath(__DIR__.'/../../database/migrations'));
+        $this->loadMigrationsFrom(realpath(XSETTING_PATH.'/database/migrations'));
     }
 }
 ```
@@ -130,14 +134,16 @@ class XSettingProvider extends ServiceProvider
 Создадим файл routes/route.php
 
 ```
-Route::domain((string) config('platform.domain'))     //Загружает из конфига домен админки
-    ->prefix(Dashboard::prefix('/systems'))	      //Загружает из конфига префикс админки и добавляет /systems
+use Orchids\XSetting\Http\Screens\XSettingEdit;
+use Orchids\XSetting\Http\Screens\XSettingList;
+
+Route::domain((string) config('platform.domain'))   //Загружает из конфига домен админки
+    ->prefix(Dashboard::prefix('/systems'))         //Загружает из конфига префикс админки и добавляет /systems
     ->middleware(config('platform.middleware.private'))
-    ->namespace('Orchids\XSetting\Http\Screens')	//Путь к классам обработчикам пути - экранам
     ->group(function (\Illuminate\Routing\Router $router, $path='platform.xsetting.') {
-        $router->screen('xsetting/{xsetting}/edit', 'XSettingEdit',$path.'edit');
-        $router->screen('xsetting/create', 'XSettingEdit',$path.'create');
-        $router->screen('xsetting', 'XSettingList',$path.'list'); 
+        $router->screen('xsetting/{xsetting}/edit', XSettingEdit::class)->name($path.'edit');
+        $router->screen('xsetting/create', XSettingEdit::class)->name($path.'create');
+        $router->screen('xsetting', XSettingList::class)->name($path.'list');
     });
 ```
 Теперь при генерации пути `route('platform.xsetting.list')` в браузере будет сгенерирован примерно такой адрес  `http://yousite.name/dashboard/systems/xsetting`, а при переходе на него роутинг запустить файл `src\Http\Screens\XSettingList.php`
@@ -157,14 +163,15 @@ class MenuComposer
     public function compose()
     {
         $this->dashboard->menu
-            ->add('CMS', [
-                'slug'       => 'XSetting',      //Уникальная строка содержащая только безопасные символы
-                'icon'       => 'icon-settings', //CSS код для графической иконки
-                'route'      => route('platform.xsetting.list'),  //Путь, route() или ссылка
-                'label'      => 'Setting configuration',     // Название меню
-                'permission' => 'platform.systems.xsetting', //Какими правами должен обладать пользователь
-                'sort'       => 10,               //Сортировка элементов меню 1/2/3/4
-            ]);
+            ->add('CMS',
+                ItemMenu::Label(__('Setting configuration'))
+                    ->Slug('XSetting')              //Уникальная строка содержащая только безопасные символы
+                    ->Icon('icon-settings')         //CSS код для графической иконки
+                    ->title(__('Setting description'))  // Название меню
+                    ->Route('platform.xsetting.list') //Путь, route() или ссылка
+                    ->Permission('platform.systems.xsetting') //Какими правами должен обладать пользователь
+                    ->Sort(7)           //Сортировка элементов меню 1/2/3/4
+            );
     }
 }
 ```
@@ -195,10 +202,11 @@ namespace Orchids\XSetting\Models;
 use Illuminate\Support\Facades\Cache;
 use Orchid\Setting\Setting;
 use Orchid\Platform\Traits\MultiLanguage;
+use Orchid\Screen\AsMultiSource;
 
 class XSetting extends Setting
 {
-    use MultiLanguage;
+    use Filterable, AsMultiSource;
     
     protected $fillable = ['key','value','options' ];	
     
@@ -207,6 +215,7 @@ class XSetting extends Setting
         'value' => 'array',
         'options' => 'array',
     ];	
+
 }
 ```
 
@@ -217,7 +226,7 @@ namespace Orchids\XSetting\Http\Screens;
 
 use Orchid\Screen\Screen;
 use Orchid\Screen\Layouts;
-use Orchid\Screen\Link;
+use Orchid\Screen\Actions\Button;
 
 use Orchids\XSetting\Models\XSetting;
 use Orchids\XSetting\Http\Layouts\XSettingListLayout;
@@ -230,7 +239,7 @@ class XSettingList extends Screen
     public function query() : array
     {
         return [
-            'settings' => XSetting::paginate(30)  //Переменная `settings` будет обработана в макете.
+            'settings' => XSetting::filters()->defaultSort('key', 'desc')->paginate(30)  //Переменная `settings` будет обработана в макете.
         ];
     }
 
@@ -244,7 +253,7 @@ class XSettingList extends Screen
     public function commandBar() : array
     {
         return [
-            Link::name('Create a new setting')->method('create'),  //Добавить в верхнее меню пункт добавления настройки 
+            Button::make('Create a new setting')->method('create'),  //Добавить в верхнее меню пункт добавления настройки 
 								   //запустит функцию create()
         ];
     }
@@ -268,7 +277,7 @@ use Orchid\Screen\Fields\TD;
 class XSettingListLayout extends Table
 {
     public $data = 'settings';
-    public function fields() : array
+    public function columns() : array
     {
         return  [
             TD::set('key','Key')        // Устновить имя переменной и заголовок столюца
@@ -280,9 +289,9 @@ class XSettingListLayout extends Table
             TD::set('value','Value')
                 ->setRender(function ($xsetting) {
                      if (is_array($xsetting->value)) {
-                        return str_limit(htmlspecialchars(json_encode($xsetting->value)), 50);
+                        return \Str::limit(htmlspecialchars(json_encode($xsetting->value)), 50);
                      }
-                     return str_limit(htmlspecialchars($xsetting->value), 50);
+                     return \Str::limit(htmlspecialchars($xsetting->value), 50);
 				}),
         ];
     }
@@ -298,7 +307,7 @@ namespace Orchids\XSetting\Http\Screens;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Setting;
 use Orchid\Screen\Layouts;
-use Orchid\Screen\Link;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 
 use Orchids\XSetting\Models\XSetting;
@@ -332,8 +341,8 @@ class XSettingEdit extends Screen
     public function commandBar() : array
     {
         return [				
-            Link::name('Save')->method('save'),   //Добавить в верхнее меню пункт сохранения настройки обработает функция `save`
-            Link::name('Remove')->method('remove'), //Добавить в верхнее меню пункт удаления настройки обработает функция `remove`
+            Link::make('Save')->method('save'),   //Добавить в верхнее меню пункт сохранения настройки обработает функция `save`
+            Link::make('Remove')->method('remove'), //Добавить в верхнее меню пункт удаления настройки обработает функция `remove`
         ];
     }
 
