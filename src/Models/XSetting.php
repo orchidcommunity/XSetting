@@ -38,7 +38,6 @@ class XSetting extends Setting
         'value',
     ];
 
-
     /**
      * @param string|array $key
      *
