@@ -4,6 +4,7 @@ namespace Orchids\XSetting\Providers;
 
 use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemMenu;
+use Orchid\Platform\Menu;
 
 class MenuComposer
 {
@@ -23,7 +24,7 @@ class MenuComposer
     public function compose()
     {
         $this->dashboard->menu
-            ->add('CMS',
+            ->add(Menu::SYSTEMS,
                 ItemMenu::Label(__('Setting configuration'))
                     ->Slug('XSetting')
                     ->Icon('icon-settings')
