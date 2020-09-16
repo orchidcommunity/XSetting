@@ -1,6 +1,7 @@
 <?php
 namespace Orchids\XSetting\Http\Layouts;
 
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -18,12 +19,15 @@ class XSettingListLayout extends Table
         return  [
 
 			TD::set('key','Key')
-                ->link('platform.xsetting.edit','key','key')
                 ->sort()
-                ->filter('text'),
+                ->filter('text')
+                ->Render(function ($data) {
+                    return Link::make($data->key)
+                        ->route('platform.xsetting.edit', $data->key);
+                }),
 			TD::set('options.title', 'Name')
 				->render(function ($xsetting) {
-                return $xsetting->options['title'];
+                    return $xsetting->options['title'];
 				})
                 ->sort(),
             TD::set('value','Value')

@@ -3,10 +3,10 @@ namespace Orchids\XSetting\Http\Screens;
 
 use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Alert;
-use Orchid\Support\Facades\Setting;
-use Orchid\Screen\Layout;
+use Orchid\Screen\LayoutFactory;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
+use Illuminate\Http\Request;
 
 use Orchids\XSetting\Models\XSetting;
 use Orchids\XSetting\Http\Layouts\XSettingEditLayout;
@@ -60,6 +60,7 @@ class XSettingEdit extends Screen
             'xsetting'   => $xsetting,
         ];
     }
+
     /**
      * Button commands
      *
@@ -68,11 +69,12 @@ class XSettingEdit extends Screen
     public function commandBar() : array
     {
         return [
-            Link::make(__('Back to list'))->icon('icon-arrow-left-circle')->href(route('platform.xsetting.list')),
+            Link::make(__('Back to list'))->icon('icon-arrow-left-circle')->route('platform.xsetting.list'),
             Button::make(__('Save'))->icon('icon-check')->method('save'),
             Button::make(__('Remove'))->icon('icon-close')->method('remove')->canSee($this->edit),
         ];
     }
+
     /**
      * Views
      *
@@ -81,25 +83,23 @@ class XSettingEdit extends Screen
     public function layout() : array
     {
         return [
-		
-		    Layout::columns([
+            LayoutFactory::columns([
                 'EditSetting' => [
                     XSettingEditLayout::class
                 ],
             ]),
-		
         ];
     }
+
     /**
-     * @param $request
      * @param XSetting $xsetting
+     * @param Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function save($request, XSetting $xsetting)
+    public function save(XSetting $xsetting, Request $request)
     {
-
-		$req = $this->request->get('xsetting');
+		$req = $request->get('xsetting');
 
         if ($req['options']['type']=='code') {
             $req['value']=json_decode($req['value'], true);
@@ -112,6 +112,7 @@ class XSettingEdit extends Screen
         Alert::info(__('Setting was saved'));
         return redirect()->route('platform.xsetting.list');
     }
+
 
     /**
      * @param XSetting $xsetting

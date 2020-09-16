@@ -30,6 +30,7 @@ class XSettingList extends Screen
     public function query() : array
     {
         $this->name = __('Setting List');
+
         return [
             'settings' => XSetting::filters()->defaultSort('key', 'desc')->paginate(30)
         ];

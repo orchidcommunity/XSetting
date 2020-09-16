@@ -4,10 +4,10 @@ namespace Orchids\XSetting\Models;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Orchid\Filters\Filterable;
-use Orchid\Setting\Setting;
+use Orchid\Settings\Tuning;
 use Orchid\Screen\AsMultiSource;
 
-class XSetting extends Setting
+class XSetting extends Tuning
 {
 	use Filterable, AsMultiSource;
 	

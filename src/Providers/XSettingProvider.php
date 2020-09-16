@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemPermission;
+use Illuminate\Support\Facades\Route;
 
 class XSettingProvider extends ServiceProvider
 {
@@ -27,6 +28,7 @@ class XSettingProvider extends ServiceProvider
 
         $this->app->booted(function () {
             $this->dashboard->registerPermissions($this->registerPermissions());
+            $this->routes();
         });
     }
 
@@ -63,4 +65,31 @@ class XSettingProvider extends ServiceProvider
         //$this->loadTranslationsFrom(realpath(XSETTING_PATH.'/resources/lang/'), 'xsetting');
         return $this;
     }
+
+    /**
+     * Get real path
+     */
+    public function getPath($path)
+    {
+        return realpath(__DIR__.'/../../'.$path);
+    }
+
+    /**
+     * Register the tool's routes.
+     *
+     * @return void
+     */
+    protected function routes()
+    {
+        if ($this->app->routesAreCached()) {
+            return;
+        }
+
+        Route::domain((string) config('platform.domain'))
+            ->prefix(Dashboard::prefix('/systems'))
+            ->as('platform.xsetting.')
+            ->middleware(config('platform.middleware.private'))
+            ->group($this->getPath('/routes/route.php'));
+    }
+
 }

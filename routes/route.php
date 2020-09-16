@@ -4,13 +4,13 @@ use Orchids\XSetting\Http\Screens\XSettingEdit;
 use Orchids\XSetting\Http\Screens\XSettingList;
 
 
+Route::screen('xsetting/{xsetting}/edit', XSettingEdit::class)
+    ->name('edit');
 
-Route::domain((string) config('platform.domain'))
-    ->prefix(Dashboard::prefix('/systems'))
-    ->middleware(config('platform.middleware.private'))
-    ->group(function (\Illuminate\Routing\Router $router, $path='platform.xsetting.') {
-        $router->screen('xsetting/{xsetting}/edit', XSettingEdit::class)->name($path.'edit');
-        $router->screen('xsetting/create', XSettingEdit::class)->name($path.'create');
-        $router->screen('xsetting', XSettingList::class)->name($path.'list');
-    });
-
+Route::screen('xsetting/create', XSettingEdit::class)
+    ->name('create');
+Route::screen('xsetting', XSettingList::class)
+    ->name('list');
+//$this->router->screen('xsetting/{xsetting}/edit', XSettingEdit::class)->name($path.'edit');
+//$this->router->screen('xsetting/create', XSettingEdit::class)->name($path.'create');
+//$this->router->screen('xsetting', XSettingList::class)->name($path.'list');
