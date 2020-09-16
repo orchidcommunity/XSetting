@@ -25,6 +25,13 @@ class MenuComposer
     {
         $this->dashboard->menu
             ->add(Menu::SYSTEMS,
+                ItemMenu::label('Settings')
+                    ->slug('setting')
+                    ->icon('icon-layers')
+                    ->permission('platform.systems.xsetting')
+                    ->sort(100)
+            )
+            ->add('setting',
                 ItemMenu::Label(__('Setting configuration'))
                     ->Slug('XSetting')
                     ->Icon('icon-settings')
