@@ -3,7 +3,7 @@ namespace Orchids\XSetting\Http\Screens;
 
 use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Alert;
-use Orchid\Screen\LayoutFactory;
+use Orchid\Screen\Layout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
 use Illuminate\Http\Request;
@@ -83,7 +83,7 @@ class XSettingEdit extends Screen
     public function layout() : array
     {
         return [
-            LayoutFactory::columns([
+            Layout::columns([
                 'EditSetting' => [
                     XSettingEditLayout::class
                 ],

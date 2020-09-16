@@ -3,7 +3,7 @@ namespace Orchids\XSetting\Http\Screens;
 
 use Orchid\Screen\Screen;
 use Orchid\Screen\Layouts;
-use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 
 use Orchids\XSetting\Models\XSetting;
 use Orchids\XSetting\Http\Layouts\XSettingListLayout;
@@ -43,7 +43,8 @@ class XSettingList extends Screen
     public function commandBar() : array
     {
         return [
-            Button::make('Create a new setting')->method('create'),
+            Link::make('Create a new setting')
+                ->route('platform.xsetting.create'),
         ];
     }
     /**
@@ -56,12 +57,5 @@ class XSettingList extends Screen
         return [
             XSettingListLayout::class,
         ];
-    }
-    /**
-     * @return null
-     */
-     public function create()
-    {
-        return redirect()->route('platform.xsetting.create');
     }
 }
