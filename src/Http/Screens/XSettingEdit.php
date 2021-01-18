@@ -69,9 +69,9 @@ class XSettingEdit extends Screen
     public function commandBar() : array
     {
         return [
-            Link::make(__('Back to list'))->icon('icon-arrow-left-circle')->route('platform.xsetting.list'),
-            Button::make(__('Save'))->icon('icon-check')->method('save'),
-            Button::make(__('Remove'))->icon('icon-close')->method('remove')->canSee($this->edit),
+            Link::make(__('Back to list'))->icon('arrow-left-circle')->route('platform.xsetting.list'),
+            Button::make(__('Save'))->icon('check')->method('save'),
+            Button::make(__('Remove'))->icon('close')->method('remove')->canSee($this->edit),
         ];
     }
 

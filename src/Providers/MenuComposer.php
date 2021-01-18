@@ -27,14 +27,14 @@ class MenuComposer
             ->add(Menu::SYSTEMS,
                 ItemMenu::label('Settings')
                     ->slug('setting')
-                    ->icon('icon-layers')
+                    ->icon('layers')
                     ->permission('platform.systems.xsetting')
                     ->sort(100)
             )
             ->add('setting',
                 ItemMenu::Label(__('Setting configuration'))
                     ->Slug('XSetting')
-                    ->Icon('icon-settings')
+                    ->Icon('settings')
                     ->title(__('Setting description'))
                     ->Route('platform.xsetting.list')
                     ->Permission('platform.systems.xsetting')
